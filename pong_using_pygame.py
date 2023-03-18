@@ -19,6 +19,9 @@ BALL_SPEED_Y = 5
 PADDLE_SPEED = 0
 PADDLE_SPEED_STEP = 8
 OPPONENT_SPEED = 20 ### opponent ai paddle speed
+PLAYER_SCORE=0
+OPPONENT_SCORE=0
+SCOREBOARD_FONT=pygame.font.SysFont("Arial",30)
 
 BALL_SPEED_X *= random.choice((1,-1))
 BALL_SPEED_Y *= random.choice((1,-1))
@@ -93,9 +96,10 @@ while True:
             if event.key == pygame.K_UP:
                 PADDLE_SPEED += PADDLE_SPEED_STEP
 
+    #logic for game
     BALL_SPEED_X, BALL_SPEED_Y = ball_motion(BALL_SPEED_X, BALL_SPEED_Y)  # function call for ball movement
     player_movement()  # function call for player paddle movement
-    opponent_movement_ai() #function call for AI
+    opponent_movement_ai() # function call for AI
 
     # draw the shapes
     screen.fill(bg_col)
@@ -103,6 +107,13 @@ while True:
     pygame.draw.rect(screen, light_grey, opponent)
     pygame.draw.ellipse(screen, light_grey, ball)
     pygame.draw.aaline(screen, light_grey, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
+
+    #rendering the scores (use another surface for the same then render it on the screen.)
+    player_text = SCOREBOARD_FONT.render(f"{PLAYER_SCORE}", True, light_grey)
+    opponent_text = SCOREBOARD_FONT.render(f"{OPPONENT_SCORE}", True, light_grey)
+    screen.blit(player_text, (700, 0))
+    screen.blit(opponent_text, (650, 0))
+
 
     pygame.display.flip()
     clock.tick(60)
